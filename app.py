@@ -10,6 +10,10 @@ from io import BytesIO
 import google.generativeai as genai
 import time
 
+model = joblib.load('job_matching_model.pkl')
+vectorizer = model['vectorizer']
+jobs_df = model['job_data']
+
 # --------------------------- Gemini API Configuration ---------------------------
 # Configure the Gemini API with your API key
 genai.configure(api_key="AIzaSyDw00wmS7RyVjMSgkNIwK6ct6Iyx92DQq4")  # Replace with your actual API key
@@ -108,9 +112,7 @@ job_skill_data = pd.read_csv("expanded_jobs_vs_skills.csv")
 
 # --------------------------- AI-Powered Job Matching Functions ---------------------------
 # Load the saved TF-IDF vectorizer and job data
-model = joblib.load('job_matching_model.pkl')
-vectorizer = model['vectorizer']
-jobs_df = model['job_data']
+
 
 # --------------------------- Cros Platform---------------------------
 # Function to load the dataset (replace with your dataset path)
