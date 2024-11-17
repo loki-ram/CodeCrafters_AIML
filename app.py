@@ -9,6 +9,8 @@ import docx  # For docx parsing
 from io import BytesIO
 import google.generativeai as genai
 import time
+import os
+
 
 
 # --------------------------- Gemini API Configuration ---------------------------
@@ -109,7 +111,14 @@ job_skill_data = pd.read_csv("expanded_jobs_vs_skills.csv")
 
 # --------------------------- AI-Powered Job Matching Functions ---------------------------
 # Load the saved TF-IDF vectorizer and job data
-model = joblib.load('job_matching_model.pkl')
+# Resolve the absolute path of the file
+file_path = os.path.abspath('job_matching_model.pkl')
+
+# Print the resolved path for debugging purposes (optional)
+print(f"Resolved file path: {file_path}")
+
+# Load the model using the absolute path
+model = joblib.load(file_path)
 vectorizer = model['vectorizer']
 jobs_df = model['job_data']
 
