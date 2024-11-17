@@ -120,7 +120,7 @@ jobs_df = model['job_data']
 # Function to load the dataset (replace with your dataset path)
 def load_job_postings():
     # Load the dataset from a CSV file
-    data = r"c:\Users\Dell\Documents\project\jobs.csv"
+    data = "jobs.csv"
     job_postings_df = pd.read_csv(data)
 
     # Clean column names to remove any leading/trailing spaces
