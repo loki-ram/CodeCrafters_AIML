@@ -9,10 +9,18 @@ import docx  # For docx parsing
 from io import BytesIO
 import google.generativeai as genai
 import time
+import gdown
 
-model = joblib.load('job_matching_model.pkl')
-vectorizer = model['vectorizer']
-jobs_df = model['job_data']
+url = 'https://drive.google.com/uc?export=download&id=13MmDVrxN0dJb6NHTHm3UPGCLqHSn5lWn'
+
+# Step 2: Define the output filename where the model will be saved locally
+output = 'job_matching_model.pkl'
+
+# Step 3: Download the file from Google Drive
+gdown.download(url, output, quiet=False)
+
+# Step 4: Load the model using joblib
+model = joblib.load(output)  
 
 # --------------------------- Gemini API Configuration ---------------------------
 # Configure the Gemini API with your API key
