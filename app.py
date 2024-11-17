@@ -9,18 +9,10 @@ import docx  # For docx parsing
 from io import BytesIO
 import google.generativeai as genai
 import time
-import gdown
 
-url = 'https://drive.google.com/uc?export=download&id=13MmDVrxN0dJb6NHTHm3UPGCLqHSn5lWn'
-
-# Step 2: Define the output filename where the model will be saved locally
-output = 'job_matching_model.pkl'
-
-# Step 3: Download the file from Google Drive
-gdown.download(url, output, quiet=False)
-
-# Step 4: Load the model using joblib
-model = joblib.load(output)  
+model = joblib.load('job_matching_model.pkl')
+vectorizer = model['vectorizer']
+jobs_df = model['job_data']
 
 # --------------------------- Gemini API Configuration ---------------------------
 # Configure the Gemini API with your API key
@@ -257,7 +249,7 @@ elif page == "AI-Powered Job Matching":
         jobs_df['similarity_score'] = user_similarity_scores
         top_jobs = jobs_df.sort_values(by='similarity_score', ascending=False).head(10)
         for index, row in top_jobs.iterrows():
-            st.write(f"*{row['title']}* at {row['company_name']}")
+            st.write(f"{row['title']} at {row['company_name']}")
             st.write(f"Similarity Score: {row['similarity_score']:.2f}")
             st.write(f"Location: {row['location']}")
             st.write(f"[Job Posting Link]({row['job_posting_url']})")
@@ -273,7 +265,7 @@ elif page == "Gemini Chatbot":
             start_time = time.time()
             response = get_gemini_response(user_input)
             elapsed_time = time.time() - start_time
-            st.write(f"*Gemini Response:* {response}")
+            st.write(f"Gemini Response: {response}")
             st.write(f"Response time: {elapsed_time:.2f} seconds")
 
 
@@ -296,12 +288,12 @@ elif page == "Cross Platform":
         if not recommendations.empty:
             st.write("Here are the top 3 job recommendations based on your skills:")
             for idx, row in recommendations.iterrows():
-                st.write(f"*Job Title*: {row['category']}")
-                st.write(f"*Company*: {row['company']}")
-                st.write(f"*Location*: {row['location']}")
-                st.write(f"*Required Skills*: {row['keywords']}")
-                st.write(f"*Post Link*: [Job Link]({row['post_link']})")  # Updated 'post_link' column
-                st.write(f"*Similarity Score*: {row['Similarity'] * 100:.2f}%")
+                st.write(f"Job Title: {row['category']}")
+                st.write(f"Company: {row['company']}")
+                st.write(f"Location: {row['location']}")
+                st.write(f"Required Skills: {row['keywords']}")
+                st.write(f"Post Link: [Job Link]({row['post_link']})")  # Updated 'post_link' column
+                st.write(f"Similarity Score: {row['Similarity'] * 100:.2f}%")
                 st.write("---")
         else:
             st.write("No matching jobs found based on the provided skills.")
