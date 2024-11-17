@@ -6,4 +6,3 @@ scikit-learn
 PyMuPDF
 python-docx
 google-generativeai
-os
