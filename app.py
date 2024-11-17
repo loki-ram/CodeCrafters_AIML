@@ -9,9 +9,10 @@ import docx  # For docx parsing
 from io import BytesIO
 import google.generativeai as genai
 import time
-import os
 
-
+model = joblib.load('job_matching_model.pkl')
+vectorizer = model['vectorizer']
+jobs_df = model['job_data']
 
 # --------------------------- Gemini API Configuration ---------------------------
 # Configure the Gemini API with your API key
@@ -111,17 +112,9 @@ job_skill_data = pd.read_csv("expanded_jobs_vs_skills.csv")
 
 # --------------------------- AI-Powered Job Matching Functions ---------------------------
 # Load the saved TF-IDF vectorizer and job data
-# Resolve the absolute path of the file
-file_path = os.path.abspath('job_matching_model.pkl')
-
-# Print the resolved path for debugging purposes (optional)
-print(f"Resolved file path: {file_path}")
-
-# Load the model using the absolute path
-model = joblib.load(file_path)
+model = joblib.load('job_matching_model.pkl')
 vectorizer = model['vectorizer']
 jobs_df = model['job_data']
-
 
 # --------------------------- Cros Platform---------------------------
 # Function to load the dataset (replace with your dataset path)
